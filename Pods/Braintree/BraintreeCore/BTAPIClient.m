@@ -46,7 +46,7 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
             _configurationHTTP = [[BTHTTP alloc] initWithBaseURL:baseURL tokenizationKey:authorization];
             
             if (sendAnalyticsEvent) {
-                [self sendAnalyticsEvent:@"ios.started.client-key"];
+                [self queueAnalyticsEvent:@"ios.started.client-key"];
             }
         } else {
             NSError *error;
@@ -61,7 +61,7 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
             _configurationHTTP = [[BTHTTP alloc] initWithClientToken:self.clientToken];
 
             if (sendAnalyticsEvent) {
-                [self sendAnalyticsEvent:@"ios.started.client-token"];
+                [self queueAnalyticsEvent:@"ios.started.client-token"];
             }
         }
         
@@ -130,10 +130,11 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = [BTAPIClient schemeForEnvironmentString:environment];
     NSString *host = [BTAPIClient hostForEnvironmentString:environment];
-    NSArray *hostComponents = [host componentsSeparatedByString:@":"];
+    NSArray <NSString *> *hostComponents = [host componentsSeparatedByString:@":"];
     components.host = hostComponents[0];
     if (hostComponents.count > 1) {
-        components.port = hostComponents[1];
+        NSString *portString = hostComponents[1];
+        components.port = @(portString.integerValue);
     }
     components.path = [BTAPIClient clientApiBasePathForMerchantID:merchantID];
     if (!components.host || !components.path) {
@@ -185,8 +186,10 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
         return;
     }
 
+    NSString *defaultFirstValue = defaultFirst ? @"true" : @"false";
+
     [self GET:@"v1/payment_methods"
-             parameters:@{@"default_first": @(defaultFirst),
+             parameters:@{@"default_first": defaultFirstValue,
                           @"session_id": self.metadata.sessionId}
              completion:^(BTJSON * _Nullable body, __unused NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
                  dispatch_async(dispatch_get_main_queue(), ^{
@@ -286,6 +289,10 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
 }
 
 - (void)sendAnalyticsEvent:(NSString *)eventKind {
+    [self.analyticsService sendAnalyticsEvent:eventKind completion:nil];
+}
+
+- (void)queueAnalyticsEvent:(NSString *)eventKind {
     [self.analyticsService sendAnalyticsEvent:eventKind];
 }
 
@@ -300,12 +307,22 @@ NSString *const BTAPIClientErrorDomain = @"com.braintreepayments.BTAPIClientErro
 
 - (void)GET:(NSString *)endpoint parameters:(NSDictionary *)parameters completion:(void(^)(BTJSON *body, NSHTTPURLResponse *response, NSError *error))completionBlock {
     [self fetchOrReturnRemoteConfiguration:^(__unused BTConfiguration * _Nullable configuration, __unused NSError * _Nullable error) {
+        if (error != nil) {
+            completionBlock(nil, nil, error);
+            return;
+        }
+
         [self.http GET:endpoint parameters:parameters completion:completionBlock];
     }];
 }
 
 - (void)POST:(NSString *)endpoint parameters:(NSDictionary *)parameters completion:(void(^)(BTJSON *body, NSHTTPURLResponse *response, NSError *error))completionBlock {
     [self fetchOrReturnRemoteConfiguration:^(__unused BTConfiguration * _Nullable configuration, __unused NSError * _Nullable error) {
+        if (error != nil) {
+            completionBlock(nil, nil, error);
+            return;
+        }
+
         NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
         mutableParameters[@"_meta"] = [self metaParameters];
         [mutableParameters addEntriesFromDictionary:parameters];

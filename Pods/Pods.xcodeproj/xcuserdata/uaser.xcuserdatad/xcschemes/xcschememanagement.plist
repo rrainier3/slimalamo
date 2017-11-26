@@ -8,33 +8,30 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>0</integer>
 		</dict>
 		<key>BraintreeDropIn-Braintree-UIKit-Localization.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>BraintreeDropIn.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 		<key>Pods-Donate.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>21D7C85BED1D5F9D684FE3974B86428D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>312B3E952FE0D7D7ECFB3CFF8C2E6CD1</key>
 		<dict>
 			<key>primary</key>
@@ -46,11 +43,6 @@
 			<true/>
 		</dict>
 		<key>B7F9C17EEF35B1512FDCE8283D7E6ACC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C9E41977F64FDEF5F2B6AE953F533BFF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

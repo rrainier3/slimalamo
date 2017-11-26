@@ -1,25 +1,25 @@
 PODS:
-  - Braintree/Card (4.8.4):
+  - Braintree/Card (4.9.6):
     - Braintree/Core
-  - Braintree/Core (4.8.4)
-  - Braintree/UnionPay (4.8.4):
+  - Braintree/Core (4.9.6)
+  - Braintree/UnionPay (4.9.6):
     - Braintree/Card
     - Braintree/Core
-  - BraintreeDropIn (5.2.1):
-    - BraintreeDropIn/DropIn (= 5.2.1)
-  - BraintreeDropIn/DropIn (5.2.1):
+  - BraintreeDropIn (5.2.3):
+    - BraintreeDropIn/DropIn (= 5.2.3)
+  - BraintreeDropIn/DropIn (5.2.3):
     - Braintree/Card (~> 4.0)
     - Braintree/Core (~> 4.0)
     - Braintree/UnionPay (~> 4.0)
     - BraintreeDropIn/UIKit
-  - BraintreeDropIn/UIKit (5.2.1)
+  - BraintreeDropIn/UIKit (5.2.3)
 
 DEPENDENCIES:
   - BraintreeDropIn
 
 SPEC CHECKSUMS:
-  Braintree: b14041582732676facd0b7237bc08cfdc0cbf988
-  BraintreeDropIn: e9cecf2ec946f084476f007a7e91925016b77e91
+  Braintree: 56ad3fa47b2f4b047cb50d989d15208690a6cbae
+  BraintreeDropIn: 20109bea730b9bd31d71792ca84545265b7d27e4
 
 PODFILE CHECKSUM: 1941c2ee7062dc1b1b861aa80ca49f4f60c0b85b
 
